@@ -87,6 +87,8 @@
 - ✅ **PWM-Frequenz zu niedrig**
   - Überprüfen Sie, dass Timer richtig konfiguriert sind
   - Software-PWM auf A0-A5 kann weniger stabil sein
+  - **Wichtig:** Timer2 (Pins 3, 11) läuft bei ~244Hz, nicht 200Hz
+  - Für exakt 200Hz verwenden Sie Timer1 (Pins 9, 10)
 
 - ✅ **Mechanisches Problem**
   - Überprüfen Sie Hydraulik-Ventile auf korrekte Funktion
@@ -258,6 +260,8 @@ Das SimpleTest Beispiel verwendet die eingebaute LED (Pin 13):
 - ✅ **PWM frequency too low**
   - Verify timers are configured correctly
   - Software PWM on A0-A5 may be less stable
+  - **Important:** Timer2 (pins 3, 11) runs at ~244Hz, not 200Hz
+  - For exactly 200Hz, use Timer1 (pins 9, 10)
 
 - ✅ **Mechanical problem**
   - Check hydraulic valves for correct function

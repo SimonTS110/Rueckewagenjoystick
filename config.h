@@ -25,18 +25,21 @@
 
 // PWM Output Pins (12 channels)
 // Change these if you need different pin assignments
-const int PWM_PIN_0 = 3;   // Timer2
-const int PWM_PIN_1 = 5;   // Timer0
-const int PWM_PIN_2 = 6;   // Timer0
-const int PWM_PIN_3 = 9;   // Timer1
-const int PWM_PIN_4 = 10;  // Timer1
-const int PWM_PIN_5 = 11;  // Timer2
-const int PWM_PIN_6 = A0;  // Software PWM
-const int PWM_PIN_7 = A1;  // Software PWM
-const int PWM_PIN_8 = A2;  // Software PWM
-const int PWM_PIN_9 = A3;  // Software PWM
-const int PWM_PIN_10 = A4; // Software PWM
-const int PWM_PIN_11 = A5; // Software PWM
+// WARNING: Pins 5 and 6 use Timer0, which is also used by millis() and delay()
+// Using PWM on these pins may affect timing functions
+// For critical applications, consider using only Timer1 (pins 9, 10) and Timer2 (pins 3, 11)
+const int PWM_PIN_0 = 3;   // Timer2 (~244Hz, not exact 200Hz)
+const int PWM_PIN_1 = 5;   // Timer0 (Warning: affects millis/delay)
+const int PWM_PIN_2 = 6;   // Timer0 (Warning: affects millis/delay)
+const int PWM_PIN_3 = 9;   // Timer1 (200Hz exact)
+const int PWM_PIN_4 = 10;  // Timer1 (200Hz exact)
+const int PWM_PIN_5 = 11;  // Timer2 (~244Hz, not exact 200Hz)
+const int PWM_PIN_6 = A0;  // Software PWM (200Hz)
+const int PWM_PIN_7 = A1;  // Software PWM (200Hz)
+const int PWM_PIN_8 = A2;  // Software PWM (200Hz)
+const int PWM_PIN_9 = A3;  // Software PWM (200Hz)
+const int PWM_PIN_10 = A4; // Software PWM (200Hz)
+const int PWM_PIN_11 = A5; // Software PWM (200Hz)
 
 // Digital Output Pins (4 channels)
 const int DIGITAL_PIN_0 = 2;

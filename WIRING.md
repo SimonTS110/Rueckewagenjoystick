@@ -133,7 +133,11 @@ Arduino Uno + USB Host Shield
 
 ⚠️ **PWM Frequenz:**
 - Hardware PWM (Pins 3, 5, 6, 9, 10, 11): ~200Hz via Timer
+  - **Pins 9, 10 (Timer1)**: Exakt 200Hz
+  - **Pins 3, 11 (Timer2)**: ~244Hz (22% Abweichung)
+  - **Pins 5, 6 (Timer0)**: Standard PWM, kann millis()/delay() beeinflussen
 - Software PWM (Pins A0-A5): 200Hz in Software implementiert
+- **Wichtig:** Wenn exakt 200Hz erforderlich ist, verwenden Sie hauptsächlich Pins 9 und 10
 
 ---
 
@@ -270,4 +274,8 @@ Arduino Uno + USB Host Shield
 
 ⚠️ **PWM Frequency:**
 - Hardware PWM (Pins 3, 5, 6, 9, 10, 11): ~200Hz via Timer
+  - **Pins 9, 10 (Timer1)**: Exactly 200Hz
+  - **Pins 3, 11 (Timer2)**: ~244Hz (22% deviation)
+  - **Pins 5, 6 (Timer0)**: Standard PWM, may affect millis()/delay()
 - Software PWM (Pins A0-A5): 200Hz implemented in software
+- **Important:** If exactly 200Hz is required, primarily use pins 9 and 10

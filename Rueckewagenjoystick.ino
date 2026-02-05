@@ -59,7 +59,10 @@ const int DEADZONE = 7500; // Range is -32768 to 32767
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial); // Wait for serial port to connect
+  // Wait for serial port with timeout (max 3 seconds)
+  // This allows operation without computer connection
+  unsigned long serialTimeout = millis() + 3000;
+  while (!Serial && millis() < serialTimeout);
   
   Serial.println(F("Hydraulic Crane Control - Rueckewagenjoystick"));
   Serial.println(F("Initializing..."));
@@ -168,12 +171,15 @@ int mapStickToPWM(int stickValue) {
 }
 
 void updatePWMOutputs() {
-  // Update hardware PWM pins (pins with native PWM support)
-  for (int i = 0; i < 6; i++) {
-    if (PWM_PINS[i] < A0) { // Hardware PWM pins
-      analogWrite(PWM_PINS[i], pwmValues[i]);
-    }
-  }
+  // Update hardware PWM pins with configured timers
+  // Only pins 3, 9, 10, 11 have hardware PWM configured
+  // Pins 5 and 6 use default Timer0 (not ideal but functional)
+  analogWrite(PWM_PINS[0], pwmValues[0]); // Pin 3 - Timer2
+  analogWrite(PWM_PINS[1], pwmValues[1]); // Pin 5 - Timer0 (millis() may be affected)
+  analogWrite(PWM_PINS[2], pwmValues[2]); // Pin 6 - Timer0 (millis() may be affected)
+  analogWrite(PWM_PINS[3], pwmValues[3]); // Pin 9 - Timer1
+  analogWrite(PWM_PINS[4], pwmValues[4]); // Pin 10 - Timer1
+  analogWrite(PWM_PINS[5], pwmValues[5]); // Pin 11 - Timer2
   
   // Software PWM for analog pins (A0-A5)
   // This is a simple software PWM implementation at 200Hz
@@ -245,7 +251,10 @@ void setupTimer2PWM() {
   // Timer2 controls pins 3 and 11
   // Set Timer2 for approximately 200Hz PWM
   // Note: Timer2 is 8-bit, so exact 200Hz is challenging
-  // Using prescaler 64, gives ~244Hz which is close
+  // Using prescaler 64, gives ~244Hz (22% faster than target)
+  // This deviation may affect hydraulic valve performance
+  // If 200Hz is critical, consider using only Timer1 pins (9, 10)
+  // or implement additional timer configuration
   
   TCCR2A = 0;
   TCCR2B = 0;

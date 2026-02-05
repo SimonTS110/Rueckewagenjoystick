@@ -24,7 +24,10 @@ const int LED_PIN = 13;
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial); // Wait for serial port
+  // Wait for serial port with timeout (max 2 seconds)
+  // This allows standalone operation without computer
+  unsigned long serialTimeout = millis() + 2000;
+  while (!Serial && millis() < serialTimeout);
   
   Serial.println(F("================================="));
   Serial.println(F("Rueckewagenjoystick - Test Mode"));
