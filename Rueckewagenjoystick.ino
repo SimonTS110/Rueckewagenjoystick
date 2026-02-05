@@ -34,19 +34,20 @@ USB Usb;
 XBOXUSB Xbox(&Usb);
 
 // PWM Output Pins (12 channels)
-// Using Timer1 (pins 9, 10) and Timer2 (pins 3, 11) for hardware PWM
-// Remaining channels use software PWM
-// On Mega2560 the analog pins A0-A5 map to digital pins 54-59,
-// but using A0..A5 identifiers works across boards.
+// Default mapping for Arduino Uno keeps earlier pins, but for Mega2560
+// the user requested the lower pin header (22..53). We'll map the
+// 12 PWM channels to a contiguous block on the Mega: 22..33 and
+// the 4 digital outputs to 34..37. All channels are driven with
+// software PWM at 200Hz for consistent behaviour across boards.
 #if defined(__AVR_ATmega2560__)
-const int PWM_PINS[12] = {3, 5, 6, 9, 10, 11, A0, A1, A2, A3, A4, A5};
+const int PWM_PINS[12] = {22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33};
+const int DIGITAL_PINS[4] = {34, 35, 36, 37};
 #else
 const int PWM_PINS[12] = {3, 5, 6, 9, 10, 11, A0, A1, A2, A3, A4, A5};
+const int DIGITAL_PINS[4] = {2, 4, 7, 8};
 #endif
 int pwmValues[12] = {0}; // PWM values 0-255
 
-// Digital Output Pins (4 channels)
-const int DIGITAL_PINS[4] = {2, 4, 7, 8};
 bool digitalStates[4] = {false};
 
 // PWM Configuration
@@ -74,7 +75,7 @@ void setup() {
   // Initialize PWM pins
   for (int i = 0; i < 12; i++) {
     pinMode(PWM_PINS[i], OUTPUT);
-    analogWrite(PWM_PINS[i], 0);
+    digitalWrite(PWM_PINS[i], LOW);
   }
   
   // Initialize digital pins
@@ -83,11 +84,7 @@ void setup() {
     digitalWrite(DIGITAL_PINS[i], LOW);
   }
   
-  // Setup Timer1 for 200Hz PWM on pins 9 and 10
-  setupTimer1PWM();
-  
-  // Setup Timer2 for 200Hz PWM on pins 3 and 11
-  setupTimer2PWM();
+  // Using software PWM for all channels; timers are left unmodified.
   
   // Initialize USB Host Shield
   if (Usb.Init() == -1) {
@@ -175,29 +172,17 @@ int mapStickToPWM(int stickValue) {
 }
 
 void updatePWMOutputs() {
-  // Update hardware PWM pins with configured timers
-  // Only pins 3, 9, 10, 11 have hardware PWM configured
-  // Pins 5 and 6 use default Timer0 (not ideal but functional)
-  analogWrite(PWM_PINS[0], pwmValues[0]); // Pin 3 - Timer2
-  analogWrite(PWM_PINS[1], pwmValues[1]); // Pin 5 - Timer0 (millis() may be affected)
-  analogWrite(PWM_PINS[2], pwmValues[2]); // Pin 6 - Timer0 (millis() may be affected)
-  analogWrite(PWM_PINS[3], pwmValues[3]); // Pin 9 - Timer1
-  analogWrite(PWM_PINS[4], pwmValues[4]); // Pin 10 - Timer1
-  analogWrite(PWM_PINS[5], pwmValues[5]); // Pin 11 - Timer2
-  
-  // Software PWM for analog pins (A0-A5)
-  // This is a simple software PWM implementation at 200Hz
+  // Software PWM for all 12 channels at PWM_FREQUENCY
   unsigned long currentMicros = micros();
   unsigned long elapsed = currentMicros - pwmCycleStart;
-  
+
   if (elapsed >= PWM_PERIOD_US) {
     pwmCycleStart = currentMicros;
     elapsed = 0;
   }
-  
-  // Calculate duty cycle position
-  for (int i = 6; i < 12; i++) {
-    unsigned long onTime = (PWM_PERIOD_US * pwmValues[i]) / 255;
+
+  for (int i = 0; i < 12; i++) {
+    unsigned long onTime = (PWM_PERIOD_US * (unsigned long)pwmValues[i]) / 255UL;
     digitalWrite(PWM_PINS[i], elapsed < onTime ? HIGH : LOW);
   }
 }
@@ -212,10 +197,7 @@ void setSafeState() {
   // Set all outputs to safe state (all off or neutral)
   for (int i = 0; i < 12; i++) {
     pwmValues[i] = 0;
-    analogWrite(PWM_PINS[i], 0);
-    if (PWM_PINS[i] >= A0) {
-      digitalWrite(PWM_PINS[i], LOW);
-    }
+    digitalWrite(PWM_PINS[i], LOW);
   }
   
   for (int i = 0; i < 4; i++) {

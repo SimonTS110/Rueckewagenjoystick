@@ -58,3 +58,15 @@ Auf dem Arduino Mega2560 stehen mehr Pins zur Verfügung. Wichtige Hinweise:
 
 Empfehlung: Verwende in Code die Symbole `A0`..`A5` und `D2`..`D8`,
 damit der Sketch auf Uno und Mega ohne weitere Änderungen läuft.
+
+## Nutzung der unteren Pinleiste (22–53)
+Der Sketch unterstützt jetzt eine alternative Belegung für den Mega2560,
+bei der die Ausgänge auf der unteren Pinleiste (D22..D53) liegen. Standardvorschlag:
+
+- PWM-Kanäle 0–11: D22..D33
+- Digitale Ausgänge 0–3: D34..D37
+
+Hinweis: Die meisten dieser Pins sind keine hardware-gesteuerten PWM-Pins.
+Der Sketch nutzt daher Software-PWM mit 200Hz für alle 12 Kanäle. Wenn du
+eine andere Pinbelegung bevorzugst, sag mir welche Kanalnummer auf welchen
+physikalischen Pin gelegt werden soll.
