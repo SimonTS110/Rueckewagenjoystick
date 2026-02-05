@@ -46,3 +46,15 @@
 │   ├── D4 → Digital MOSFET 1 → Support Left Extend
 │   ├── D7 → Digital MOSFET 2 → Support Right Retract
 │   └── D8 → Digital MOSFET 3 → Support Right Extend
+
+## Mega2560 Hinweis
+Auf dem Arduino Mega2560 stehen mehr Pins zur Verfügung. Wichtige Hinweise:
+
+- Die Bezeichnungen `A0`..`A5` funktionieren in Sketches plattformübergreifend.
+	Auf dem Mega entsprechen diese jedoch den digitalen Pin-Nummern `54`..`59`.
+- SPI für das USB Host Shield läuft auf dem Mega über den ICSP-Header
+	(MOSI/MISO/SCK). Viele Shields verwenden weiterhin D10 als `SS` und D9 als `INT`.
+- Digitale Ausgänge (D2, D4, D7, D8) bleiben gleich und benötigen keine Anpassung.
+
+Empfehlung: Verwende in Code die Symbole `A0`..`A5` und `D2`..`D8`,
+damit der Sketch auf Uno und Mega ohne weitere Änderungen läuft.

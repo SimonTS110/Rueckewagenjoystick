@@ -21,12 +21,10 @@
  * Digital Outputs:
  *   - Pin 2, 4, 7, 8
  * 
- * USB Host Shield uses:
- *   - Pin 13 (SCK)
- *   - Pin 12 (MISO)
- *   - Pin 11 (MOSI) - shared with PWM
- *   - Pin 10 (SS) - shared with PWM
- *   - Pin 9 (INT) - shared with PWM
+ * USB Host Shield uses SPI pins. On Uno these are D11/D12/D13,
+ * on Mega2560 the SPI interface is provided on the 6-pin ICSP header
+ * (MOSI/MISO/SCK -> D51/D50/D52 internally). The shield typically
+ * keeps `SS` on D10 and `INT` on D9 but verify your shield wiring.
  */
 
 #include <XBOXUSB.h>
@@ -38,7 +36,13 @@ XBOXUSB Xbox(&Usb);
 // PWM Output Pins (12 channels)
 // Using Timer1 (pins 9, 10) and Timer2 (pins 3, 11) for hardware PWM
 // Remaining channels use software PWM
+// On Mega2560 the analog pins A0-A5 map to digital pins 54-59,
+// but using A0..A5 identifiers works across boards.
+#if defined(__AVR_ATmega2560__)
 const int PWM_PINS[12] = {3, 5, 6, 9, 10, 11, A0, A1, A2, A3, A4, A5};
+#else
+const int PWM_PINS[12] = {3, 5, 6, 9, 10, 11, A0, A1, A2, A3, A4, A5};
+#endif
 int pwmValues[12] = {0}; // PWM values 0-255
 
 // Digital Output Pins (4 channels)
