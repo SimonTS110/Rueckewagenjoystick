@@ -1,30 +1,26 @@
 /*
  * Rueckewagenjoystick - Hydraulic Crane Control with Xbox Controller
- * 
+ *
  * This sketch controls a hydraulic crane using an Xbox Controller
- * connected via USB Host Shield to an Arduino Uno.
- * 
+ * connected via USB Host Shield to an Arduino Mega2560.
+ *
  * Hardware Requirements:
- * - Arduino Uno
+ * - Arduino Mega2560
  * - USB Host Shield (for Xbox Controller)
  * - 12 PWM MOSFETs (200Hz)
  * - 4 Digital MOSFETs (On/Off)
- * 
+ *
  * Required Libraries:
  * - USB Host Shield Library 2.0
  *   Install via Arduino Library Manager: "USB Host Shield Library 2.0"
- * 
- * Pin Configuration:
- * PWM Outputs (200Hz, ~5ms period):
- *   - Pin 3, 5, 6, 9, 10, 11 (Hardware PWM on Timer1 and Timer2)
- *   - Pin A0-A5 (Software PWM for remaining channels)
- * Digital Outputs:
- *   - Pin 2, 4, 7, 8
- * 
- * USB Host Shield uses SPI pins. On Uno these are D11/D12/D13,
- * on Mega2560 the SPI interface is provided on the 6-pin ICSP header
- * (MOSI/MISO/SCK -> D51/D50/D52 internally). The shield typically
- * keeps `SS` on D10 and `INT` on D9 but verify your shield wiring.
+ *
+ * Pin Configuration (Mega2560 mapping used by this sketch):
+ * PWM Outputs (12 channels): pins 22..33 (software PWM)
+ * Digital Outputs (4 channels): pins 34..37
+ *
+ * USB Host Shield uses SPI pins available via the 6-pin ICSP header
+ * on the Mega2560 (MOSI/MISO/SCK). Verify your shield wiring and
+ * any SS/INT pin assignments for your specific shield.
  */
 
 #include <XBOXUSB.h>
@@ -33,19 +29,11 @@
 USB Usb;
 XBOXUSB Xbox(&Usb);
 
-// PWM Output Pins (12 channels)
-// Default mapping for Arduino Uno keeps earlier pins, but for Mega2560
-// the user requested the lower pin header (22..53). We'll map the
-// 12 PWM channels to a contiguous block on the Mega: 22..33 and
-// the 4 digital outputs to 34..37. All channels are driven with
-// software PWM at 200Hz for consistent behaviour across boards.
-#if defined(__AVR_ATmega2560__)
+// PWM Output Pins (12 channels) and digital outputs (4 channels)
+// This sketch targets the Arduino Mega2560. All channels are driven
+// with software PWM at 200Hz for consistent behaviour across boards.
 const int PWM_PINS[12] = {22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33};
 const int DIGITAL_PINS[4] = {34, 35, 36, 37};
-#else
-const int PWM_PINS[12] = {3, 5, 6, 9, 10, 11, A0, A1, A2, A3, A4, A5};
-const int DIGITAL_PINS[4] = {2, 4, 7, 8};
-#endif
 int pwmValues[12] = {0}; // PWM values 0-255
 
 bool digitalStates[4] = {false};
@@ -206,55 +194,3 @@ void setSafeState() {
   }
 }
 
-void setupTimer1PWM() {
-  // Timer1 controls pins 9 and 10
-  // Set Timer1 for 200Hz PWM (5ms period)
-  // Prescaler = 64, TOP = 1249 gives 200Hz on 16MHz Arduino
-  
-  TCCR1A = 0;
-  TCCR1B = 0;
-  
-  // Set non-inverting mode for OC1A (pin 9) and OC1B (pin 10)
-  TCCR1A |= (1 << COM1A1) | (1 << COM1B1);
-  
-  // Set Fast PWM mode with ICR1 as TOP
-  TCCR1A |= (1 << WGM11);
-  TCCR1B |= (1 << WGM12) | (1 << WGM13);
-  
-  // Set prescaler to 64
-  TCCR1B |= (1 << CS11) | (1 << CS10);
-  
-  // Set TOP value for 200Hz
-  // 16MHz / (64 * 200Hz) - 1 = 1249
-  ICR1 = 1249;
-  
-  // Initialize duty cycle to 0
-  OCR1A = 0;
-  OCR1B = 0;
-}
-
-void setupTimer2PWM() {
-  // Timer2 controls pins 3 and 11
-  // Set Timer2 for approximately 200Hz PWM
-  // Note: Timer2 is 8-bit, so exact 200Hz is challenging
-  // Using prescaler 64, gives ~244Hz (22% faster than target)
-  // This deviation may affect hydraulic valve performance
-  // If 200Hz is critical, consider using only Timer1 pins (9, 10)
-  // or implement additional timer configuration
-  
-  TCCR2A = 0;
-  TCCR2B = 0;
-  
-  // Set non-inverting mode for OC2A (pin 11) and OC2B (pin 3)
-  TCCR2A |= (1 << COM2A1) | (1 << COM2B1);
-  
-  // Set Fast PWM mode
-  TCCR2A |= (1 << WGM20) | (1 << WGM21);
-  
-  // Set prescaler to 64
-  TCCR2B |= (1 << CS22);
-  
-  // Initialize duty cycle to 0
-  OCR2A = 0;
-  OCR2B = 0;
-}
