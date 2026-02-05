@@ -30,3 +30,5 @@ Thumbs.db
 build/
 bin/
 obj/
+.codeql
+_codeql*
