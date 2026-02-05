@@ -6,7 +6,7 @@
 1. ✅ Arduino Uno
 2. ✅ USB Host Shield aufgesteckt
 3. ✅ Xbox Controller bereit
-4. ✅ 12 PWM MOSFET Module
+4. ✅ 12 PWM MOSFET Module (logic-level empfohlen)
 5. ✅ 4 Digital MOSFET Module
 
 ### Schritt 2: Software installieren
@@ -26,7 +26,7 @@
 8. Überprüfen Sie, dass Controller erkannt wird
 
 ### Schritt 4: Verkabelung (siehe WIRING.md für Details)
-⚠️ **WICHTIG: Externe Stromversorgung für MOSFETs verwenden!**
+⚠️ **WICHTIG: Externe Stromversorgung für MOSFETs verwenden! Gemeinsame Masse (GND) erforderlich.**
 
 **Für jedes MOSFET Modul:**
 - Signal → Arduino Pin (siehe Tabelle unten)
@@ -35,7 +35,7 @@
 - Last+ → Hydraulikventil
 - Last- → GND Versorgung
 
-**PWM Pins (empfohlen für beste Leistung):**
+- **PWM Pins (empfohlen für beste Leistung):**
 - Pin 9, 10 → Primäre Ventile (exakt 200Hz, Timer1)
 - Pin 3, 11 → Sekundäre Ventile (~244Hz, Timer2)
 - Pin 5, 6 → Zusätzliche Ventile (Standard PWM)

@@ -53,6 +53,8 @@
   - GND → Arduino GND (gemeinsame Masse!)
   - VCC → Externe Versorgung (NICHT Arduino 5V)
 
+Hinweis: Vergleichen Sie die im Sketch verwendeten Pin-Arrays (`PWM_PINS[]`, `DIGITAL_PINS[]`) in `config.h` mit Ihrer Verkabelung.
+
 - ✅ **MOSFET-Module nicht logic-level**
   - Lösung: Verwenden Sie logic-level MOSFETs (schalten bei 5V)
   - Empfohlen: IRF520, IRLZ44N, oder ähnliche
@@ -149,6 +151,8 @@ Waiting for Xbox Controller...
 ```
 
 Bei verbundenem Controller sollten Sie Echtzeitwerte sehen.
+
+Tipp: Verwenden Sie zuerst das Beispiel `examples/SimpleTest/SimpleTest.ino`, um Hardware und Shield zu prüfen, bevor Sie den Hauptsketch laden.
 
 #### LED-Diagnose
 

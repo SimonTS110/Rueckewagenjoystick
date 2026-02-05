@@ -11,8 +11,8 @@
 | 1 | Arduino Uno | Mikrocontroller-Board | Arduino Uno R3 |
 | 1 | USB Host Shield | Für Xbox Controller | USB Host Shield 2.0 für Arduino |
 | 1 | Xbox Controller | USB oder Xbox 360 Controller | Xbox 360 Wired Controller |
-| 12 | PWM MOSFET Module | Logic Level MOSFET | IRF520 oder IRLZ44N Module |
-| 4 | Digital MOSFET Module | Logic Level MOSFET | IRF520 oder IRLZ44N Module |
+| 12 | PWM MOSFET Module | Logic-level MOSFET (für 5V Gate-Ansteuerung) | z.B. IRLZ44N, IRF3205 (vermeiden Sie ältere Nicht-Logic-Level-Teile wie IRF520) |
+| 4 | Digital MOSFET Module | Logic-level MOSFET (für 5V Gate-Ansteuerung) | z.B. IRLZ44N, IRF3205 |
 
 #### Stromversorgung
 

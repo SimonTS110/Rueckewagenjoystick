@@ -1,6 +1,8 @@
 # Rueckewagenjoystick
 Hydraulischer Kran Steuerung mit Xbox Controller / Hydraulic Crane Control with Xbox Controller
 
+_Last updated: 2026-02-05_
+
 ## Deutsch
 
 ### Übersicht
@@ -23,8 +25,8 @@ Dieses Projekt ermöglicht die Steuerung eines hydraulischen Krans mit einem Xbo
 - Externe Stromversorgung für MOSFETs
 
 ### Software-Anforderungen
-- Arduino IDE (1.8.x oder höher)
-- USB Host Shield Library 2.0
+- Arduino IDE (1.8.x oder höher) oder alternative: PlatformIO / Arduino CLI
+- USB Host Shield Library 2.0 (über Library Manager) oder passende PlatformIO-Bibliothek
 
 ### Installation
 
@@ -32,19 +34,19 @@ Dieses Projekt ermöglicht die Steuerung eines hydraulischen Krans mit einem Xbo
 Laden Sie die Arduino IDE von [arduino.cc](https://www.arduino.cc/en/software) herunter und installieren Sie sie.
 
 #### 2. USB Host Shield Library installieren
-1. Öffnen Sie Arduino IDE
-2. Gehen Sie zu: `Sketch → Bibliothek einbinden → Bibliotheken verwalten`
-3. Suchen Sie nach "USB Host Shield Library 2.0"
-4. Installieren Sie die Bibliothek von Oleg Mazurov
+1. Öffnen Sie Arduino IDE (oder nutzen Sie PlatformIO)
+2. In Arduino IDE: `Sketch → Bibliothek einbinden → Bibliotheken verwalten`
+3. Suchen Sie nach "USB Host Shield Library 2.0" und installieren Sie sie (Autor: Oleg Mazurov)
+4. Bei PlatformIO: fügen Sie die entsprechende Library in `platformio.ini` hinzu
 
 #### 3. Sketch hochladen
-1. Öffnen Sie `Rueckewagenjoystick.ino` in Arduino IDE
+1. Öffnen Sie `Rueckewagenjoystick.ino` in Arduino IDE oder in Ihrem PlatformIO-Projekt
 2. Wählen Sie Board: `Arduino Uno`
 3. Wählen Sie den richtigen COM-Port
 4. Klicken Sie auf "Hochladen"
 
 ### Verkabelung
-Detaillierte Verkabelungsanweisungen finden Sie in [WIRING.md](WIRING.md).
+Detaillierte Verkabelungsanweisungen finden Sie in [WIRING.md](WIRING.md). Beispiele finden Sie auch unter [examples/SimpleTest](examples/SimpleTest).
 
 ### Verwendung
 1. Schließen Sie das USB Host Shield an den Arduino Uno an

@@ -1,3 +1,9 @@
+# Wiring / Verkabelung
+
+Kurze Hinweise zur Verkabelung:
+- Verwenden Sie für MOSFET-Module eine getrennte Versorgung (z.B. 12V/24V) und verbinden Sie immer die Massen (GND) mit dem Arduino-GND.
+- Signalleitungen vom Arduino zu MOSFETs sind 5V-Steuersignale. Verwenden Sie logic-level MOSFETs.
+
 ## Digitale Ausgänge (4 Kanäle)
 | Kanal | Arduino Pin | Funktion |
 |-------|-------------|----------|
@@ -35,17 +41,17 @@
 | BACK Button | - | Reset |
 
 ## Wiring Diagram
-├── Digitale Ausgänge → MOSFET Module → Stützen
-│   ├── D2 → Digital MOSFET 0 → Stütze Links Einfahren
-│   ├── D4 → Digital MOSFET 1 → Stütze Links Ausfahren
-│   ├── D7 → Digital MOSFET 2 → Stütze Rechts Einfahren
-│   └── D8 → Digital MOSFET 3 → Stütze Rechts Ausfahren
+- Digitale Ausgänge → Digital MOSFET Module → Stützen
+	- D2 → Digital MOSFET 0 → Stütze Links Einfahren
+	- D4 → Digital MOSFET 1 → Stütze Links Ausfahren
+	- D7 → Digital MOSFET 2 → Stütze Rechts Einfahren
+	- D8 → Digital MOSFET 3 → Stütze Rechts Ausfahren
 
-├── Digital Outputs → MOSFET Modules → Support Legs
-│   ├── D2 → Digital MOSFET 0 → Support Left Retract
-│   ├── D4 → Digital MOSFET 1 → Support Left Extend
-│   ├── D7 → Digital MOSFET 2 → Support Right Retract
-│   └── D8 → Digital MOSFET 3 → Support Right Extend
+- PWM-Ausgänge → PWM MOSFET Module → Proportionalventile
+	- Verwenden Sie für PWM-Kanäle die im Sketch definierten `PWM_PINS[]` (siehe `config.h`).
+
+## Mega2560 Hinweis
+Auf dem Arduino Mega2560 stehen mehr Pins zur Verfügung. Wichtige Hinweise:
 
 ## Mega2560 Hinweis
 Auf dem Arduino Mega2560 stehen mehr Pins zur Verfügung. Wichtige Hinweise:
