@@ -8,7 +8,7 @@
 
 | Anzahl | Komponente | Beschreibung | Beispiel |
 |--------|------------|--------------|----------|
-| 1 | Arduino Uno | Mikrocontroller-Board | Arduino Uno R3 |
+| 1 | Arduino Mega 2560 | Mikrocontroller-Board (empfohlen) | Arduino Mega 2560 |
 | 1 | USB Host Shield | Für Xbox Controller | USB Host Shield 2.0 für Arduino |
 | 1 | Xbox Controller | USB oder Xbox 360 Controller | Xbox 360 Wired Controller |
 | 12 | PWM MOSFET Module | Logic-level MOSFET (für 5V Gate-Ansteuerung) | z.B. IRLZ44N, IRF3205 (vermeiden Sie ältere Nicht-Logic-Level-Teile wie IRF520) |
@@ -179,9 +179,8 @@ These must be specified according to your crane:
 
 ### Compatibility Notes
 
-**Arduino Uno Alternatives:**
-- Arduino Mega 2560 (more pins if expansion needed)
-- Arduino Uno WiFi Rev2 (for wireless monitoring)
+**Supported board:**
+- Arduino Mega 2560 (Projekt ist für Mega 2560 ausgelegt)
 
 **USB Host Shield Alternatives:**
 - Any Arduino-compatible USB Host Shield 2.0

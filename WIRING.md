@@ -1,16 +1,17 @@
 # Wiring / Verkabelung
 
-Kurze Hinweise zur Verkabelung:
+Kurze Hinweise zur Verkabelung (Arduino Mega 2560):
 - Verwenden Sie für MOSFET-Module eine getrennte Versorgung (z.B. 12V/24V) und verbinden Sie immer die Massen (GND) mit dem Arduino-GND.
 - Signalleitungen vom Arduino zu MOSFETs sind 5V-Steuersignale. Verwenden Sie logic-level MOSFETs.
+- Dieses Projekt unterstützt nur den Arduino Mega 2560; alle Pin-Empfehlungen beziehen sich auf den Mega.
 
 ## Digitale Ausgänge (4 Kanäle)
-| Kanal | Arduino Pin | Funktion |
-|-------|-------------|----------|
-| 0 | D2 | Stütze Links Einfahren |
-| 1 | D4 | Stütze Links Ausfahren |
-| 2 | D7 | Stütze Rechts Einfahren |
-| 3 | D8 | Stütze Rechts Ausfahren |
+| Kanal | Arduino Pin (Mega) | Funktion |
+|-------|---------------------|----------|
+| 0 | D34 | Stütze Links Einfahren |
+| 1 | D35 | Stütze Links Ausfahren |
+| 2 | D36 | Stütze Rechts Einfahren |
+| 3 | D37 | Stütze Rechts Ausfahren |
 
 ## Digitale Eingänge
 | Xbox Taste | Digital Kanal | Funktion |
@@ -23,12 +24,12 @@ Kurze Hinweise zur Verkabelung:
 | BACK Taste | - | Reset |
 
 ## Digital Outputs (4 channels)
-| Channel | Arduino Pin | Function |
-|---------|-------------|----------|
-| 0 | D2 | Support Left Retract |
-| 1 | D4 | Support Left Extend |
-| 2 | D7 | Support Right Retract |
-| 3 | D8 | Support Right Extend |
+| Channel | Arduino Pin (Mega) | Function |
+|---------|---------------------|----------|
+| 0 | D34 | Support Left Retract |
+| 1 | D35 | Support Left Extend |
+| 2 | D36 | Support Right Retract |
+| 3 | D37 | Support Right Extend |
 
 ## Digital Inputs
 | Xbox Button | Digital Channel | Function |
@@ -42,37 +43,26 @@ Kurze Hinweise zur Verkabelung:
 
 ## Wiring Diagram
 - Digitale Ausgänge → Digital MOSFET Module → Stützen
-	- D2 → Digital MOSFET 0 → Stütze Links Einfahren
-	- D4 → Digital MOSFET 1 → Stütze Links Ausfahren
-	- D7 → Digital MOSFET 2 → Stütze Rechts Einfahren
-	- D8 → Digital MOSFET 3 → Stütze Rechts Ausfahren
+	- D34 → Digital MOSFET 0 → Stütze Links Einfahren
+	- D35 → Digital MOSFET 1 → Stütze Links Ausfahren
+	- D36 → Digital MOSFET 2 → Stütze Rechts Einfahren
+	- D37 → Digital MOSFET 3 → Stütze Rechts Ausfahren
 
 - PWM-Ausgänge → PWM MOSFET Module → Proportionalventile
 	- Verwenden Sie für PWM-Kanäle die im Sketch definierten `PWM_PINS[]` (siehe `config.h`).
+	- Empfohlene Standardbelegung für Mega (PWM-Kanäle 0–11): Pins `2,3,4,5,6,7,8,9,10,11,12,13`.
 
 ## Mega2560 Hinweis
-Auf dem Arduino Mega2560 stehen mehr Pins zur Verfügung. Wichtige Hinweise:
+Dieses Projekt ist für den `Arduino Mega 2560` ausgelegt. Wichtige Hinweise:
 
-## Mega2560 Hinweis
-Auf dem Arduino Mega2560 stehen mehr Pins zur Verfügung. Wichtige Hinweise:
+- Hardware-PWM auf Mega: Pins `2..13` und `44..46` sind hardware-gesteuerte PWM-Pins. Für 12 Kanäle eignen sich `2..13` sehr gut.
+- SPI für das USB Host Shield läuft auf dem Mega über den ICSP-Header (MOSI/MISO/SCK). Viele Shields verwenden weiterhin D10 als `SS` und D9 als `INT`.
+- Analoge Pins `A0..A15` sind als `A0..A15` nutzbar; bei Bedarf entsprechen sie auch digitalen Pin-Nummern (z.B. `A0` = `54`).
 
-- Die Bezeichnungen `A0`..`A5` funktionieren in Sketches plattformübergreifend.
-	Auf dem Mega entsprechen diese jedoch den digitalen Pin-Nummern `54`..`59`.
-- SPI für das USB Host Shield läuft auf dem Mega über den ICSP-Header
-	(MOSI/MISO/SCK). Viele Shields verwenden weiterhin D10 als `SS` und D9 als `INT`.
-- Digitale Ausgänge (D2, D4, D7, D8) bleiben gleich und benötigen keine Anpassung.
-
-Empfehlung: Verwende in Code die Symbole `A0`..`A5` und `D2`..`D8`,
-damit der Sketch auf Uno und Mega ohne weitere Änderungen läuft.
+Empfehlung: Verwenden Sie in Code die symbolischen Bezeichner (`2`, `A0`, `D34` etc.) wie in `config.h` definiert; `PWM_PINS[]` und `DIGITAL_PINS[]` sollten an Ihre physikalische Verkabelung angepasst werden.
 
 ## Nutzung der unteren Pinleiste (22–53)
 Der Sketch unterstützt jetzt eine alternative Belegung für den Mega2560,
 bei der die Ausgänge auf der unteren Pinleiste (D22..D53) liegen. Standardvorschlag:
 
-- PWM-Kanäle 0–11: D22..D33
-- Digitale Ausgänge 0–3: D34..D37
-
-Hinweis: Die meisten dieser Pins sind keine hardware-gesteuerten PWM-Pins.
-Der Sketch nutzt daher Software-PWM mit 200Hz für alle 12 Kanäle. Wenn du
-eine andere Pinbelegung bevorzugst, sag mir welche Kanalnummer auf welchen
-physikalischen Pin gelegt werden soll.
+Hinweis: Wenn Sie andere Pins verwenden möchten, passen Sie bitte `PWM_PINS[]` und `DIGITAL_PINS[]` in `config.h` an. Der Sketch verwendet auf dem Mega vorzugsweise Hardware-PWM-Pins; Software-PWM ist nur für alternative Belegungen vorgesehen.

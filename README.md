@@ -16,12 +16,12 @@ Dieses Projekt ermöglicht die Steuerung eines hydraulischen Krans mit einem Xbo
 - Totzone für Analog-Sticks
 - Detaillierte Dokumentation und Beispiele
 
-### Hardware-Anforderungen
-- Arduino Uno
-- USB Host Shield 2.0
+### Hardware-Anforderungen (Arduino Mega 2560)
+- Arduino Mega 2560 (Dieses Projekt ist nur für den Mega 2560 ausgelegt)
+- USB Host Shield 2.0 (kompatibel mit Mega via ICSP)
 - Xbox Controller (USB)
-- 12x PWM MOSFET Module für Proportionalventile
-- 4x Digitale MOSFET Module für Schaltfunktionen
+- 12x PWM MOSFET Modules für Proportionalventile
+- 4x Digital MOSFET Modules für Schaltfunktionen
 - Externe Stromversorgung für MOSFETs
 
 ### Software-Anforderungen
@@ -41,7 +41,7 @@ Laden Sie die Arduino IDE von [arduino.cc](https://www.arduino.cc/en/software) h
 
 #### 3. Sketch hochladen
 1. Öffnen Sie `Rueckewagenjoystick.ino` in Arduino IDE oder in Ihrem PlatformIO-Projekt
-2. Wählen Sie Board: `Arduino Uno`
+2. Wählen Sie Board: `Arduino Mega or Mega 2560`
 3. Wählen Sie den richtigen COM-Port
 4. Klicken Sie auf "Hochladen"
 
@@ -74,12 +74,12 @@ Detaillierte Verkabelungsanweisungen finden Sie in [WIRING.md](WIRING.md). Beisp
 - Verwenden Sie immer eine separate Stromversorgung für MOSFETs
 - Stellen Sie sicher, dass alle Massen verbunden sind
 
-### Konfiguration
-Die Pin-Belegung und Funktionszuordnung können im Sketch angepasst werden:
-- `PWM_PINS[]` - PWM Ausgangspins
-- `DIGITAL_PINS[]` - Digitale Ausgangspins
+### Konfiguration (Mega-spezifisch)
+Die Pin-Belegung und Funktionszuordnung können im Sketch in `config.h` angepasst werden:
+- `PWM_PINS[]` - PWM Ausgangspins. Empfohlen: Hardware-PWM des Mega (Pins 2..13, 44..46). Für 12 Kanäle sind z.B. `2..13` geeignet.
+- `DIGITAL_PINS[]` - Digitale Ausgangspins. Empfehlung: `34..37` für die 4 Ein/Aus-Kanäle.
 - `DEADZONE` - Totzone für Analog-Sticks (Standard: 7500)
-- `PWM_FREQUENCY` - PWM Frequenz (Standard: 200Hz)
+- `PWM_FREQUENCY` - PWM Frequenz (Standard: 200Hz). Hinweis: Timer-Setup unterscheidet sich auf Mega vs Uno; dieser Sketch ist für Mega konfiguriert.
 
 ### Fehlerbehebung
 - **"USB Host Shield initialization failed"**: Überprüfen Sie USB Host Shield Verbindung

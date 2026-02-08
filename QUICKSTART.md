@@ -3,7 +3,7 @@
 ## Deutsch - Schnellstart
 
 ### Schritt 1: Hardware vorbereiten
-1. ✅ Arduino Uno
+1. ✅ Arduino Mega 2560 (einzige unterstützte Plattform)
 2. ✅ USB Host Shield aufgesteckt
 3. ✅ Xbox Controller bereit
 4. ✅ 12 PWM MOSFET Module (logic-level empfohlen)
@@ -17,7 +17,7 @@
 
 ### Schritt 3: Test ohne Last
 1. Öffnen Sie `examples/SimpleTest/SimpleTest.ino`
-2. Wählen Sie Board: `Tools → Board → Arduino Uno`
+2. Wählen Sie Board: `Tools → Board → Arduino Mega or Mega 2560`
 3. Wählen Sie Port: `Tools → Port → [Ihr COM Port]`
 4. Hochladen: Klicken Sie auf den Upload-Button
 5. Öffnen Sie Serial Monitor (Strg+Shift+M)
@@ -35,11 +35,10 @@
 - Last+ → Hydraulikventil
 - Last- → GND Versorgung
 
-- **PWM Pins (empfohlen für beste Leistung):**
-- Pin 9, 10 → Primäre Ventile (exakt 200Hz, Timer1)
-- Pin 3, 11 → Sekundäre Ventile (~244Hz, Timer2)
-- Pin 5, 6 → Zusätzliche Ventile (Standard PWM)
-- Pin A0-A5 → Weitere Ventile (Software PWM)
+- **PWM Pins (Mega - empfohlen für beste Leistung):**
+- Verwenden Sie die Hardware-PWM-Pins des Mega: `2..13` und optional `44..46`.
+- Für 12 PWM-Kanäle empfehlen sich die Pins `2` bis `13` (12 Pins, hardware-PWM auf Mega).
+- Vermeiden Sie Software-PWM wenn möglich; verwenden Sie die im Sketch definierten `PWM_PINS[]`.
 
 **Digital Pins:**
 - Pin 2, 4, 7, 8 → Ein/Aus Funktionen
@@ -88,7 +87,7 @@ Siehe [TROUBLESHOOTING.md](TROUBLESHOOTING.md) für häufige Probleme
 ## English - Quick Start
 
 ### Step 1: Prepare Hardware
-1. ✅ Arduino Uno
+1. ✅ Arduino Mega 2560 (only supported platform)
 2. ✅ USB Host Shield mounted
 3. ✅ Xbox Controller ready
 4. ✅ 12 PWM MOSFET Modules
@@ -102,7 +101,7 @@ Siehe [TROUBLESHOOTING.md](TROUBLESHOOTING.md) für häufige Probleme
 
 ### Step 3: Test Without Load
 1. Open `examples/SimpleTest/SimpleTest.ino`
-2. Select Board: `Tools → Board → Arduino Uno`
+2. Select Board: `Tools → Board → Arduino Mega or Mega 2560`
 3. Select Port: `Tools → Port → [Your COM Port]`
 4. Upload: Click the Upload button
 5. Open Serial Monitor (Ctrl+Shift+M)
@@ -120,11 +119,10 @@ Siehe [TROUBLESHOOTING.md](TROUBLESHOOTING.md) für häufige Probleme
 - Load+ → Hydraulic valve
 - Load- → GND supply
 
-**PWM Pins (recommended for best performance):**
-- Pins 9, 10 → Primary valves (exactly 200Hz, Timer1)
-- Pins 3, 11 → Secondary valves (~244Hz, Timer2)
-- Pins 5, 6 → Additional valves (standard PWM)
-- Pins A0-A5 → More valves (software PWM)
+**PWM Pins (Mega - recommended for best performance):**
+- Use the Mega hardware PWM pins: `2..13` and optionally `44..46`.
+- For 12 PWM channels the pins `2`..`13` are a convenient choice (12 hardware PWM pins).
+- Avoid software PWM when possible; use the `PWM_PINS[]` array in `config.h`.
 
 **Digital Pins:**
 - Pins 2, 4, 7, 8 → On/Off functions

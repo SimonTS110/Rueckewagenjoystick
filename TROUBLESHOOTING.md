@@ -89,8 +89,7 @@ Hinweis: Vergleichen Sie die im Sketch verwendeten Pin-Arrays (`PWM_PINS[]`, `DI
 - ✅ **PWM-Frequenz zu niedrig**
   - Überprüfen Sie, dass Timer richtig konfiguriert sind
   - Software-PWM auf A0-A5 kann weniger stabil sein
-  - **Wichtig:** Timer2 (Pins 3, 11) läuft bei ~244Hz, nicht 200Hz
-  - Für exakt 200Hz verwenden Sie Timer1 (Pins 9, 10)
+  - **Hinweis:** Auf dem Arduino Mega sind die Timer-/PWM-Zuordnungen anders als auf einem Uno. Die im Sketch verwendeten Timer wurden für den Mega ausgewählt, um nahe 200Hz PWM auf den empfohlenen Pins zu erreichen. Prüfen Sie `config.h`, falls Sie Frequenzen anpassen möchten.
 
 - ✅ **Mechanisches Problem**
   - Überprüfen Sie Hydraulik-Ventile auf korrekte Funktion
@@ -108,8 +107,8 @@ Hinweis: Vergleichen Sie die im Sketch verwendeten Pin-Arrays (`PWM_PINS[]`, `DI
 - ❌ `'Xbox' was not declared in this scope`
   - Lösung: Überprüfen Sie include-Anweisungen am Anfang der Datei
 
-- ❌ Timer-bezogene Fehler
-  - Lösung: Code ist für Arduino Uno optimiert. Für andere Boards müssen Timer-Einstellungen angepasst werden.
+-- ❌ Timer-bezogene Fehler
+  - Lösung: Der Sketch ist für den Arduino Mega 2560 konfiguriert. Wenn Sie auf einem anderen Board arbeiten möchten, müssen die Timer- und PWM-Einstellungen in `config.h` und im Sketch angepasst werden.
 
 #### 7. Serielle Ausgabe zeigt Müll / unleserliche Zeichen
 
@@ -264,8 +263,7 @@ Das SimpleTest Beispiel verwendet die eingebaute LED (Pin 13):
 - ✅ **PWM frequency too low**
   - Verify timers are configured correctly
   - Software PWM on A0-A5 may be less stable
-  - **Important:** Timer2 (pins 3, 11) runs at ~244Hz, not 200Hz
-  - For exactly 200Hz, use Timer1 (pins 9, 10)
+  - **Note:** On the Arduino Mega the timer/PWM mapping differs from the Uno. The sketch selects timers/pins suitable for ~200Hz on the recommended Mega pins. Check `config.h` if you need to change PWM frequencies.
 
 - ✅ **Mechanical problem**
   - Check hydraulic valves for correct function
@@ -283,8 +281,8 @@ Das SimpleTest Beispiel verwendet die eingebaute LED (Pin 13):
 - ❌ `'Xbox' was not declared in this scope`
   - Solution: Check include statements at beginning of file
 
-- ❌ Timer-related errors
-  - Solution: Code is optimized for Arduino Uno. For other boards, timer settings must be adjusted.
+-- ❌ Timer-related errors
+  - Solution: The sketch is configured for the Arduino Mega 2560. For other boards, adjust timer and PWM settings accordingly.
 
 #### 7. Serial output shows garbage / unreadable characters
 
